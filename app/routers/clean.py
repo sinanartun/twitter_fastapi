@@ -1,12 +1,8 @@
+from ..models.clean import Clean
 import nltk
-import pandas as pd
-import re
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
-from nltk.sentiment import SentimentIntensityAnalyzer
-from sklearn.feature_extraction.text import TfidfVectorizer
-import joblib
-from ..models.clean import Clean
+import re
 
 # Ensure the required NLTK data is downloaded
 nltk.download('stopwords')
@@ -14,10 +10,6 @@ nltk.download('wordnet')
 
 stop_words = set(stopwords.words('english'))
 lemmatizer = WordNetLemmatizer()
-
-# Load the pre-trained model
-model = joblib.load('logistic_model.joblib')
-vectorizer = joblib.load('tfidf_vectorizer.joblib')
 
 def preprocess(text: str) -> str:
     # Convert to lower case
@@ -46,13 +38,6 @@ def preprocess(text: str) -> str:
     
     return text
 
-def predict_sentiment(text: str):
-    cleaned_text = preprocess(text)
-    vectorized_text = vectorizer.transform([cleaned_text])
-    prediction = model.predict(vectorized_text)
-    return prediction[0]
-
 def clean_text(clean: Clean):
     cleaned_text = preprocess(clean.text)
-    sentiment = predict_sentiment(cleaned_text)
-    return {"text": cleaned_text, "sentiment": sentiment}
+    return {"text": cleaned_text, "status": "cleaned"}
