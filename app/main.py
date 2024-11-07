@@ -9,6 +9,7 @@ origins = [
     "https://twitter.com",
     "http://localhost",
     "http://localhost:8000",
+    "https://x.com"
     # Add other origins as needed
 ]
 
