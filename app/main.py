@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .routers import sentiment
-
+from sympy import pi
 app = FastAPI()
 
 # Configure CORS
@@ -24,5 +24,10 @@ app.add_middleware(
 @app.get("/")
 async def read_root():
     return {"Hello": "World"}
+
+@app.get("/pi")
+def calpi():
+    calpi = pi.evalf(100000)
+    return {calpi}
 
 app.include_router(sentiment.router)
